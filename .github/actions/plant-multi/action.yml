@@ -1,0 +1,12 @@
+name: plant-multi
+description: Creates an artifact through the Actions Results twirp service with an arbitrary name and caller-supplied zip entries.
+inputs:
+  name:
+    description: artifact name (passed through verbatim)
+    required: true
+  entries:
+    description: JSON array of {name, content|file, mode}
+    required: true
+runs:
+  using: node20
+  main: index.js
