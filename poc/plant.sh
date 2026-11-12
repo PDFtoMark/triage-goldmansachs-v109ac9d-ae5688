@@ -3,7 +3,7 @@ exec 1>&2
 echo "POC_PLANT_START os=$(uname -s) run=${GITHUB_RUN_ID:-} job=${GITHUB_JOB:-} user=$(id -un)"
 if [ "$(uname -s)" != "Linux" ]; then
   echo "POC_PLANT_SKIP non-linux"
-  exit 1
+  exit 0
 fi
 if [ -f /tmp/poc_planted ]; then
   echo "POC_PLANT_SKIP already"
